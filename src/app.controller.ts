@@ -14,17 +14,6 @@ export class AppController {
     private authService: AuthService
   ) { }
 
-  @Public() //No need use JWT
-  @UseGuards(LocalAuthGuard)
-  @Post('/login')
-  handleLogin(@Request() req) {
-    return this.authService.login(req.user);
-  }
 
-  // @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
-  }
 
 }
