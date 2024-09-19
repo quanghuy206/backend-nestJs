@@ -1,5 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectModel } from '@nestjs/mongoose';
+import { genSaltSync, hashSync } from 'bcryptjs';
+import { use } from 'passport';
+import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
+import { RegisterUserDto } from 'src/users/dto/create-user.dto';
+import { User, UserDocument } from 'src/users/schemas/user.schema';
 import { IUser } from 'src/users/user.interface';
 import { UsersService } from 'src/users/users.service';
 
@@ -7,7 +13,8 @@ import { UsersService } from 'src/users/users.service';
 export class AuthService {
     constructor(
         private usersService: UsersService,
-        private jwtService: JwtService
+        private jwtService: JwtService,
+
     ) { }
 
     //ussername/ pass là 2 tham số thư viện passport nó ném về
@@ -22,8 +29,8 @@ export class AuthService {
 
         return null;
     }
-    async login(user: IUser) {
-        const { _id, name, email, role } = user;
+    async login(iUser: IUser) {
+        const { _id, name, email, role } = iUser;
         const payload = {
             sub: "token login",
             iss: "from server",
@@ -39,5 +46,14 @@ export class AuthService {
             email,
             role
         }
+    }
+
+    async register(user: RegisterUserDto) {
+        let newUser = await this.usersService.register(user)
+        return {
+            _id: newUser?.id,
+            createdAt: newUser?.createdAt
+        }
+
     }
 }
