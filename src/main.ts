@@ -1,3 +1,4 @@
+import cookieParser from 'cookie-parser';  // Default import
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -21,6 +22,9 @@ async function bootstrap() {
 
 
   app.useGlobalPipes(new ValidationPipe());
+
+  //config cookie 
+  app.use(cookieParser());
 
   //config Cors
   app.enableCors(

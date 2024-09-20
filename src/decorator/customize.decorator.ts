@@ -10,7 +10,7 @@ export const ResponseMessage = (message: string) =>
 
 
 export const User = createParamDecorator(
-    (data: unknown, ctx: ExecutionContext) => {
+    (data: unknown, ctx: ExecutionContext) => { //excutionContext = request.user off Jwt when decode success
         const request = ctx.switchToHttp().getRequest();
         return request.user;
     },
