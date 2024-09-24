@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsDefined, IsEmail, IsNotEmpty, IsNotEmptyObject, IsObject, ValidateNested } from 'class-validator';
+import { IsDefined, IsEmail, IsMongoId, IsNotEmpty, IsNotEmptyObject, IsObject, ValidateNested } from 'class-validator';
 import mongoose from 'mongoose';
 
 //data transfer object // class = { }
@@ -33,8 +33,9 @@ export class CreateUserDto {
     @IsNotEmpty({ message: 'Address không được để trống', })
     address: string;
 
-    @IsNotEmpty({ message: 'Address không được để trống', })
-    role: string;
+    @IsNotEmpty({ message: 'Role không được để trống', })
+    @IsMongoId({ message: "Role có định dạng là mongo Id" })
+    role: mongoose.Schema.Types.ObjectId;
 
     @IsDefined()
     @IsNotEmptyObject()
