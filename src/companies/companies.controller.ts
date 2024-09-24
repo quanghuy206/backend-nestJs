@@ -10,14 +10,15 @@ import { IUser } from 'src/users/user.interface';
 export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) { }
 
-  @UseGuards(JwtAuthGuard)
   @Post()
+  @ResponseMessage("Create a Company")
   create(
     @Body() createCompanyDto: CreateCompanyDto, @User() user: IUser) {
     return this.companiesService.create(createCompanyDto, user);
   }
 
   @Get()
+  @Public()
   @ResponseMessage("Fetch list company with paginate")
   findAll(
     @Query("current") currentPage: string,
@@ -28,6 +29,7 @@ export class CompaniesController {
   }
 
   @Get(':id')
+  @Public()
   findOne(@Param('id') id: string) {
     return this.companiesService.findOne(+id);
   }

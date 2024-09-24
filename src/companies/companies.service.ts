@@ -6,7 +6,6 @@ import { Company, CompanyDocument } from './schemas/company.schema';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { IUser } from 'src/users/user.interface';
-import { log } from 'console';
 
 @Injectable()
 export class CompaniesService {

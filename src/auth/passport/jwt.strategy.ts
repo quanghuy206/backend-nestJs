@@ -18,8 +18,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     //decode token success 
     async validate(payload: IUser) {
-        console.log(payload._id);
-
         const { _id, name, email, role } = payload;
         //req.user
         return {

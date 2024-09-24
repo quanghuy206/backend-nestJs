@@ -3,7 +3,6 @@ import { AuthService } from './auth.service';
 import { Public, ResponseMessage, User } from 'src/decorator/customize.decorator';
 import { LocalAuthGuard } from './local-auth.guard';
 import { RegisterUserDto } from 'src/users/dto/create-user.dto';
-import { log } from 'console';
 import { Request, Response } from 'express';
 import { IUser } from 'src/users/user.interface';
 
@@ -46,6 +45,7 @@ export class AuthController {
     }
 
 
+    //call refresh token when accesstoken in cookie expire
     @Public()
     @Get("/refresh")
     @ResponseMessage("Get User refresh Token")
