@@ -5,12 +5,15 @@ import { LocalAuthGuard } from './local-auth.guard';
 import { RegisterUserDto } from 'src/users/dto/create-user.dto';
 import { Request, Response } from 'express';
 import { IUser } from 'src/users/user.interface';
+import { RoleService } from 'src/role/role.service';
 
 
 @Controller("auth") //  route /
 export class AuthController {
     constructor(
-        private authService: AuthService
+        private authService: AuthService,
+        private roleService: RoleService
+
     ) { }
 
     @Public() //No need use JWT
@@ -38,17 +41,19 @@ export class AuthController {
     }
 
     //Get User Infomation by refresh token
-    @Get("/account")
     @ResponseMessage("Get User Information ")
-    handleGetAccount(@User() user: IUser) {
+    @Get("/account")
+    async handleGetAccount(@User() user: IUser) {
+        const temp = await this.roleService.findOne(user.role._id) as any;
+        user.permissions = temp.permissions
         return { user }
     }
 
 
     //call refresh token when accesstoken in cookie expire
+    @ResponseMessage("Get User refresh Token")
     @Public()
     @Get("/refresh")
-    @ResponseMessage("Get User refresh Token")
     handleRefreshToken(
         @Req() request: Request,
         @Res({ passthrough: true }) response: Response
@@ -58,8 +63,8 @@ export class AuthController {
     }
 
 
-    @Post("/logout")
     @ResponseMessage("Logout !")
+    @Post("/logout")
     handleLogout(
         @User() user: IUser,
         @Res({ passthrough: true }) response: Response) {

@@ -66,5 +66,9 @@ export class RegisterUserDto {
 
     @IsNotEmpty({ message: 'Address không được để trống', })
     address: string;
+
+    @IsNotEmpty({ message: 'Role không được để trống', })
+    @IsMongoId({ message: "Role có định dạng là mongo Id" })
+    role: mongoose.Schema.Types.ObjectId;
 }
 
