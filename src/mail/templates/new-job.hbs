@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Job</title>
+
+</head>
+
+<body style="font-family: 'Segoe UI', Roboto, Arial, sans-serif;margin: 0;padding: 0;background-color: #f4f4f4;">
+    <div class="email-container"
+        style="max-width: 600px;width: 100%;margin: 0 auto;background-color: #ffffff;border-radius: 10px;padding: 20px;box-sizing: border-box;">
+        <div class="header"
+            style="background-color: #ea1e30;color: white;padding: 20px;text-align: center;font-size: 24px;font-weight: bold;">
+            It Resume</div>
+        <div class="subheader"
+            style="text-align: center;font-size: 16px;color: #555555;margin-top: 10px;font-style: italic;">Ít nhưng mà
+            chất</div>
+        <div class="content" style="margin-top: 20px;font-size: 16px;color: #333333;line-height: 1.6;">
+            <p>Hi <strong style="color: #ea1e30;">{{receiver}}</strong>,</p>
+            <p>One of these jobs may be your next one. Find out today!</p>
+
+            {{#each jobs}}
+            <div class="job-item" style="margin-top: 20px;padding: 15px 0;border-bottom: 1px dashed #dddddd;">
+                <a href="https://findjob.com.vn/" target="_blank"
+                    style="color: #0073e6;text-decoration: none;font-size: 18px;font-weight: bold;">{{name}}</a>
+                <div class="company" style="font-size: 14px;color: #555555;">{{company}}</div>
+                <div class="salary" style="font-size: 14px;color: #555555;">{{salary}}</div>
+                <div class="skills" style="margin-top: 10px;">
+                    {{#each skills}}
+                    <span
+                        style="background-color: #f0f0f0;border-radius: 5px;padding: 5px 10px;margin-right: 5px;font-size: 14px;display: inline-block;">{{this}}</span>
+                    {{/each}}
+                </div>
+            </div>
+            {{/each}}
+
+            <a href="https://findjob.com.vn/" class="cta-button" target="_blank"
+                style="display: inline-block;background-color: #ea1e30;color: white;text-decoration: none;padding: 12px 20px;border-radius: 5px;text-align: center;font-size: 16px;margin-top: 20px;cursor: pointer;width: 100%;box-sizing: border-box;">Xem
+                thêm job tại Find Job</a>
+
+            <div class="footer" style="margin-top: 30px;text-align: left;font-size: 16px;color: #333333;">
+                <p>Cheers,</p>
+                <p>Eric.</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

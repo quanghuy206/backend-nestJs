@@ -34,6 +34,11 @@ export class SubscribersService {
     }
   }
 
+  async getSkills(user: IUser) {
+    const { email } = user;
+    return await this.subcriberModel.findOne({ email }, { skills: 1 })
+  }
+
   async findAll(currentPage: number, limit: number, qs: string) {
     const { filter, sort, projection, population } = aqp(qs)
     delete filter.current;
@@ -68,21 +73,19 @@ export class SubscribersService {
     return await this.subcriberModel.findOne({ _id: id })
   }
 
-  async update(id: string, updateSubscriberDto: UpdateSubscriberDto, user: IUser) {
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      throw new BadRequestException("Không tìm thấy permission")
-    }
-
-    return await this.subcriberModel.updateOne(
-      { _id: id },
+  async update(updateSubscriberDto: UpdateSubscriberDto, user: IUser) {
+    const updated = await this.subcriberModel.updateOne(
+      { email: user.email },
       {
         ...updateSubscriberDto,
         updatedBy: {
           _id: user._id,
           email: user.email
         }
-      }
+      },
+      { upsert: true } // chưa có thì tạo - có rồi thì bỏ qua
     )
+    return updated
   }
 
   async remove(id: string, user: IUser) {

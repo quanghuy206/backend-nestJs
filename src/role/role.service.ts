@@ -35,6 +35,7 @@ export class RoleService {
     }
   }
 
+
   async findAll(currentPage: number, limit: number, qs: string) {
     const { filter, sort, projection, population } = aqp(qs)
     delete filter.current;

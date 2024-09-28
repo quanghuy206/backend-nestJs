@@ -1,5 +1,6 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsDefined, IsEmail, IsMongoId, IsNotEmpty, IsNotEmptyObject, IsObject, ValidateNested } from 'class-validator';
+import { IsDefined, IsEmail, IsMongoId, IsNotEmpty, IsNotEmptyObject, IsObject, IsString, ValidateNested } from 'class-validator';
 import mongoose from 'mongoose';
 
 //data transfer object // class = { }
@@ -67,8 +68,18 @@ export class RegisterUserDto {
     @IsNotEmpty({ message: 'Address không được để trống', })
     address: string;
 
-    @IsNotEmpty({ message: 'Role không được để trống', })
-    @IsMongoId({ message: "Role có định dạng là mongo Id" })
-    role: mongoose.Schema.Types.ObjectId;
 }
 
+export class UserLoginDto {
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({ example: 'username', description: 'username' })
+    readonly username: string;
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({
+        example: '123456',
+        description: 'password',
+    })
+    readonly password: string;
+}

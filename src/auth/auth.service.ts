@@ -84,6 +84,7 @@ export class AuthService {
         return "ok"
     }
     async register(user: RegisterUserDto) {
+        // const getRole = await this.rolesService.findRole
         let newUser = await this.usersService.register(user)
         return {
             _id: newUser?.id,

@@ -2,12 +2,13 @@ import { Controller, Post, UseGuards, Get, Body, Res, Req } from '@nestjs/common
 import { AuthService } from './auth.service';
 import { Public, ResponseMessage, User } from 'src/decorator/customize.decorator';
 import { LocalAuthGuard } from './local-auth.guard';
-import { RegisterUserDto } from 'src/users/dto/create-user.dto';
+import { RegisterUserDto, UserLoginDto } from 'src/users/dto/create-user.dto';
 import { Request, Response } from 'express';
 import { IUser } from 'src/users/user.interface';
 import { RoleService } from 'src/role/role.service';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
-
+@ApiTags('auth')
 @Controller("auth") //  route /
 export class AuthController {
     constructor(
@@ -19,6 +20,7 @@ export class AuthController {
     @Public() //No need use JWT
     @ResponseMessage("User Login")
     @UseGuards(LocalAuthGuard)
+    @ApiBody({ type: UserLoginDto, })
     @Post('/login')
     handleLogin(
         @Req() req,

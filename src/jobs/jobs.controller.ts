@@ -5,7 +5,9 @@ import { UpdateJobDto } from './dto/update-job.dto';
 import { Public, ResponseMessage, User } from 'src/decorator/customize.decorator';
 import { IUser } from 'src/users/user.interface';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('jobs')
 @Controller('jobs')
 export class JobsController {
   constructor(private readonly jobsService: JobsService) { }
