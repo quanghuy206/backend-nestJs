@@ -1,9 +1,9 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsDefined, IsEmail, IsMongoId, IsNotEmpty, IsNotEmptyObject, IsObject, IsString, ValidateNested } from 'class-validator';
+import { IsEmail, IsMongoId, IsNotEmpty, IsNotEmptyObject, IsObject, IsString, ValidateNested } from 'class-validator';
 import mongoose from 'mongoose';
-
+import { ApiProperty } from '@nestjs/swagger';
 //data transfer object // class = { }
+
 class Company {
     @IsNotEmpty()
     _id: mongoose.Schema.Types.ObjectId;
@@ -12,7 +12,6 @@ class Company {
     name: string;
 }
 
-//Admin
 export class CreateUserDto {
 
     @IsNotEmpty({ message: 'Name không được để trống', })
@@ -26,7 +25,7 @@ export class CreateUserDto {
     password: string;
 
     @IsNotEmpty({ message: 'Age không được để trống', })
-    age: string;
+    age: number;
 
     @IsNotEmpty({ message: 'Gender không được để trống', })
     gender: string;
@@ -35,18 +34,16 @@ export class CreateUserDto {
     address: string;
 
     @IsNotEmpty({ message: 'Role không được để trống', })
-    @IsMongoId({ message: "Role có định dạng là mongo Id" })
+    @IsMongoId({ message: 'Role có định dạng là mongo id', })
     role: mongoose.Schema.Types.ObjectId;
 
-    @IsDefined()
     @IsNotEmptyObject()
     @IsObject()
     @ValidateNested()
     @Type(() => Company)
-    company!: Company;
+    company: Company;
 }
 
-//Client
 export class RegisterUserDto {
 
     @IsNotEmpty({ message: 'Name không được để trống', })
@@ -60,21 +57,21 @@ export class RegisterUserDto {
     password: string;
 
     @IsNotEmpty({ message: 'Age không được để trống', })
-    age: string;
+    age: number;
 
     @IsNotEmpty({ message: 'Gender không được để trống', })
     gender: string;
 
     @IsNotEmpty({ message: 'Address không được để trống', })
     address: string;
-
 }
 
 export class UserLoginDto {
     @IsString()
     @IsNotEmpty()
-    @ApiProperty({ example: 'username', description: 'username' })
+    @ApiProperty({ example: 'hoidanit', description: 'username' })
     readonly username: string;
+
     @IsString()
     @IsNotEmpty()
     @ApiProperty({
@@ -82,4 +79,6 @@ export class UserLoginDto {
         description: 'password',
     })
     readonly password: string;
+
 }
+

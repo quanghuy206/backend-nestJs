@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
-import { IUser } from 'src/users/user.interface';
+import { IUser } from 'src/users/users.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Permission, PermissionDocument } from './schemas/permission.schema';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
@@ -45,6 +45,7 @@ export class PermissionsService {
 
     const result = await this.permissionModel.find(filter)
       .limit(defaultLimit)
+      .skip(offset)
       // @ts-ignore: Unreachable code error
       .sort(sort)
       .populate(population)

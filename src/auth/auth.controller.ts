@@ -4,8 +4,8 @@ import { Public, ResponseMessage, User } from 'src/decorator/customize.decorator
 import { LocalAuthGuard } from './local-auth.guard';
 import { RegisterUserDto, UserLoginDto } from 'src/users/dto/create-user.dto';
 import { Request, Response } from 'express';
-import { IUser } from 'src/users/user.interface';
-import { RoleService } from 'src/role/role.service';
+import { IUser } from 'src/users/users.interface';
+import { RoleService } from 'src/roles/role.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('auth')

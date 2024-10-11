@@ -1,19 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { CreateResumeDto, CreateUserCvDto } from './dto/create-resume.dto';
 import { UpdateResumeDto } from './dto/update-resume.dto';
-import { IUser } from 'src/users/user.interface';
+import { IUser } from 'src/users/users.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Resume, ResumeDocument } from './schemas/resume.schema';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import aqp from 'api-query-params';
 import mongoose from 'mongoose';
+import { User, UserDocument } from 'src/users/schemas/user.schema';
 
 @Injectable()
 export class ResumesService {
 
   constructor(
     @InjectModel(Resume.name)
-    private resumeModel: SoftDeleteModel<ResumeDocument>
+    private resumeModel: SoftDeleteModel<ResumeDocument>,
+
+    @InjectModel(User.name)
+    private userModel: SoftDeleteModel<UserDocument>
   ) { }
 
   async create(createUserCvDto: CreateUserCvDto, user: IUser) {
@@ -44,7 +48,7 @@ export class ResumesService {
     }
   }
 
-  async findAll(currentPage: number, limit: number, qs: string) {
+  async findAll(currentPage: number, limit: number, qs: string, user: IUser) {
     const { filter, sort, projection, population } = aqp(qs)
     delete filter.current;
     delete filter.pageSize;
@@ -53,9 +57,19 @@ export class ResumesService {
     const totalItems = (await this.resumeModel.find(filter)).length;
     const totalPages = Math.ceil(totalItems / defaultLimit);
 
+
+    //get info user to get company
+    const getInfoUser = await this.userModel.findOne({ _id: user._id })
+
+    // const result = await this.resumeModel.find({ companyId: getInfoUser.company._id })
+
+    if (getInfoUser.company) {
+      filter.companyId = getInfoUser.company._id
+    }
     const result = await this.resumeModel.find(filter)
       .limit(defaultLimit)
       // @ts-ignore: Unreachable code error
+      .skip(offset)
       .sort(sort as any)
       .populate(population)
       .select(projection as any)
@@ -70,6 +84,7 @@ export class ResumesService {
       result
     }
   }
+
 
   async findOne(id: string) {
     if (!mongoose.Types.ObjectId.isValid(id))

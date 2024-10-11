@@ -8,8 +8,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './passport/jwt.strategy';
 import ms from 'ms';
 import { AuthController } from './auth.controller';
-import { RoleService } from 'src/role/role.service';
-import { RoleModule } from 'src/role/role.module';
+import { RoleService } from 'src/roles/role.service';
+import { RoleModule } from 'src/roles/role.module';
 @Module({
   imports: [
     UsersModule,

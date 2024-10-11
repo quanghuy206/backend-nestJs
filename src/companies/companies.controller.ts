@@ -4,7 +4,7 @@ import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { Public, ResponseMessage, User } from 'src/decorator/customize.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { IUser } from 'src/users/user.interface';
+import { IUser } from 'src/users/users.interface';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('companies')
@@ -31,9 +31,10 @@ export class CompaniesController {
   }
 
   @Get(':id')
+  @ResponseMessage("Find Company by Id")
   @Public()
   findOne(@Param('id') id: string) {
-    return this.companiesService.findOne(+id);
+    return this.companiesService.findOne(id);
   }
 
   @Patch(':id')

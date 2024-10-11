@@ -4,7 +4,7 @@ import { UpdateSubscriberDto } from './dto/update-subscriber.dto';
 import { Subscriber, SubscriberDocument } from './schemas/subscriber.schema';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { IUser } from 'src/users/user.interface';
+import { IUser } from 'src/users/users.interface';
 import aqp from 'api-query-params';
 import mongoose from 'mongoose';
 
@@ -50,6 +50,7 @@ export class SubscribersService {
 
     const result = await this.subcriberModel.find(filter)
       .limit(defaultLimit)
+      .skip(offset)
       // @ts-ignore: Unreachable code error
       .sort(sort)
       .populate(population)

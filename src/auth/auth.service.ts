@@ -8,10 +8,10 @@ import { Response } from 'express';
 import ms from 'ms';
 import { use } from 'passport';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
-import { RoleService } from 'src/role/role.service';
+import { RoleService } from 'src/roles/role.service';
 import { RegisterUserDto } from 'src/users/dto/create-user.dto';
 import { User, UserDocument } from 'src/users/schemas/user.schema';
-import { IUser } from 'src/users/user.interface';
+import { IUser } from 'src/users/users.interface';
 import { UsersService } from 'src/users/users.service';
 
 @Injectable()

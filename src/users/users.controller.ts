@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Public, ResponseMessage, User } from 'src/decorator/customize.decorator';
-import { IUser } from './user.interface';
+import { IUser } from './users.interface';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('users')
@@ -13,45 +13,46 @@ export class UsersController {
 
   @Post()
   @ResponseMessage("Create a new User")
-  async create(@Body() bodyUser: CreateUserDto, @User() user: IUser) {
-    let newUser = await this.usersService.create(bodyUser, user);
+  async create(@Body() hoidanit: CreateUserDto, @User() user: IUser) {
+    let newUser = await this.usersService.create(hoidanit, user);
     return {
       _id: newUser?._id,
       createdAt: newUser?.createdAt
-    }
-
+    };
   }
 
-  @Public()
-  @ResponseMessage("Fetch user by id with pagination")
   @Get()
+  @ResponseMessage("Fetch user with paginate")
   findAll(
-    @Query('current') currentPage: string,
+    @Query("current") currentPage: string,
     @Query("pageSize") limit: string,
-    @Query() qs: string,
-  ) {
+    @Query() qs: string,) {
     return this.usersService.findAll(+currentPage, +limit, qs);
   }
 
   @Public()
-  @ResponseMessage("Fetch user by Id")
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+  @ResponseMessage("Fetch user by id")
+  async findOne(@Param('id') id: string) {
+    const foundUser = await this.usersService.findOne(id);
+    return foundUser;
   }
 
-
-
+  @ResponseMessage("Update a User")
   @Patch()
-  @ResponseMessage("Update success !")
   async update(@Body() updateUserDto: UpdateUserDto, @User() user: IUser) {
-    let newUser = await this.usersService.update(updateUserDto, user);
-    return newUser
-
+    let updatedUser = await this.usersService.update(updateUserDto, user);
+    return updatedUser;
   }
+  // @ResponseMessage("Update a User")
+  // @Patch(':id')
+  // async update(@Param('id') id :string,@Body() updateUserDto: UpdateUserDto, @User() user: IUser) {
+  //   let updatedUser = await this.usersService.update(id,updateUserDto, user);
+  //   return updatedUser;
+  // }
 
   @Delete(':id')
-  @ResponseMessage("Delete Success !")
+  @ResponseMessage("Delete a User")
   remove(@Param('id') id: string, @User() user: IUser) {
     return this.usersService.remove(id, user);
   }

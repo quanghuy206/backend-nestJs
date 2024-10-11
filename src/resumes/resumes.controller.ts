@@ -3,7 +3,7 @@ import { ResumesService } from './resumes.service';
 import { CreateResumeDto, CreateUserCvDto } from './dto/create-resume.dto';
 import { UpdateResumeDto } from './dto/update-resume.dto';
 import { ResponseMessage, User } from 'src/decorator/customize.decorator';
-import { IUser } from 'src/users/user.interface';
+import { IUser } from 'src/users/users.interface';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('resumes')
@@ -23,9 +23,18 @@ export class ResumesController {
     @Query('currentPage') currentPage: string,
     @Query('limit') limit: string,
     @Query() qs: string,
+    @User() user: IUser
   ) {
-    return this.resumesService.findAll(+currentPage, +limit, qs);
+    return this.resumesService.findAll(+currentPage, +limit, qs, user);
   }
+
+  // @Get()
+  // @ResponseMessage("Find User By Role")
+  // findResumeByRole() {
+
+  // }
+
+
 
   @Get(':id')
   @ResponseMessage("Find resume by Id")

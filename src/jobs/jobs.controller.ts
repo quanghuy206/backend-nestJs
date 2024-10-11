@@ -3,7 +3,7 @@ import { JobsService } from './jobs.service';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
 import { Public, ResponseMessage, User } from 'src/decorator/customize.decorator';
-import { IUser } from 'src/users/user.interface';
+import { IUser } from 'src/users/users.interface';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -26,9 +26,31 @@ export class JobsController {
     @Query('current') currentPage: string,
     @Query("pageSize") limit: string,
     @Query() qs: string,
+    @User() user: IUser
   ) {
-    return this.jobsService.findAll(+currentPage, +limit, qs);
+    return this.jobsService.findAll(+currentPage, +limit, qs, user);
   }
+
+  @Get('by-user-role')
+  @ResponseMessage("Fetch job with pagination By User Role")
+  fetchJobWithUser(
+    @Query('current') currentPage: string,
+    @Query("pageSize") limit: string,
+    @Query() qs: string,
+    @User() user: IUser
+  ) {
+    return this.jobsService.fetchJobByUser(+currentPage, +limit, qs, user);
+  }
+
+  @Get('companyId/:id')
+  @Public()
+  @ResponseMessage("Fetch job with pagination By CompanyId")
+  fetchJobByCompanyId(
+    @Param('id') companyId: string, // Lấy 'id' từ URL
+  ) {
+    return this.jobsService.fetchJobByCompanyId(companyId);
+  }
+
 
   @Get(':id')
   @Public()

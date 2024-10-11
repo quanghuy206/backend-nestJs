@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
-import { IUser } from 'src/users/user.interface';
+import { IUser } from 'src/users/users.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Role, RoleDocument } from './schemas/role.schema';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
@@ -47,6 +47,7 @@ export class RoleService {
 
     const result = await this.roleModel.find(filter)
       .limit(defaultLimit)
+      .skip(offset)
       // @ts-ignore: Unreachable code error
       .sort(sort)
       .populate(population)
