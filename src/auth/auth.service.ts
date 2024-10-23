@@ -43,6 +43,7 @@ export class AuthService {
 
         return null;
     }
+
     async login(iUser: IUser, response: Response) {
         const { _id, name, email, role, permissions } = iUser;
         const payload = {
@@ -154,6 +155,20 @@ export class AuthService {
             }
         } catch (error) {
             throw new BadRequestException("Refresh Token không hợp lệ . Vui lòng login")
+        }
+    }
+
+    async changePassword(email: string, oldPassword: string, newPassword: string): Promise<any> {
+        const user = await this.usersService.findOneByUsername(email);
+        if (user) {
+            const isMatch = this.usersService.isValidPassword(oldPassword, user.password);
+            if (!isMatch) {
+                throw new BadRequestException('Mật khẩu cũ không đúng ');
+            }
+            const hashedPassword = this.usersService.getHashPassword(newPassword)
+            user.password = hashedPassword;
+            await user.save();
+            return { message: 'Đổi mật khẩu thành công' };
         }
     }
 }

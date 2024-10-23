@@ -38,35 +38,35 @@ async function bootstrap() {
       credentials: true //accept client and server talk together
     }
   );
-  //Config versioning
+  //Config versioning API 
   app.setGlobalPrefix('api');
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: ['1', '2']
   });
 
-  const config = new DocumentBuilder()
-    .setTitle('Nest JS Series API Document')
-    .setDescription('All Module APIs')
-    .setVersion('1.0')
-    .addBearerAuth(
-      {
-        type: 'http',
-        scheme: 'Bearer',
-        bearerFormat: 'JWT',
-        in: 'header',
-      },
-      'token',
-    )
-    .addSecurityRequirements('token')
-    // .addTag('cats')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document, {
-    swaggerOptions: {
-      persitsAuthorization: true,
-    }
-  });
+  // const config = new DocumentBuilder()
+  //   .setTitle('Nest JS Series API Document')
+  //   .setDescription('All Module APIs')
+  //   .setVersion('1.0')
+  //   .addBearerAuth(
+  //     {
+  //       type: 'http',
+  //       scheme: 'Bearer',
+  //       bearerFormat: 'JWT',
+  //       in: 'header',
+  //     },
+  //     'token',
+  //   )
+  //   .addSecurityRequirements('token')
+  //   // .addTag('cats')
+  //   .build();
+  // const document = SwaggerModule.createDocument(app, config);
+  // SwaggerModule.setup('api', app, document, {
+  //   swaggerOptions: {
+  //     persitsAuthorization: true,
+  //   }
+  // });
 
 
   await app.listen(configService.get<string>('PORT'));

@@ -72,4 +72,17 @@ export class AuthController {
         @Res({ passthrough: true }) response: Response) {
         return this.authService.logout(response, user)
     }
+
+    @Post("/change-password")
+    async changePassword(
+        @User() user: IUser,
+        @Body('oldPassword') oldPassword: string,
+        @Body('newPassword') newPassword: string,
+    ) {
+        const email = user.email;
+        return this.authService.changePassword(email, oldPassword, newPassword);
+    }
+
+
+
 }
